@@ -10,7 +10,7 @@
 (defun rc/get-default-font ()
   (cond
    ((eq system-type 'windows-nt) "Consolas-13")
-   ((eq system-type 'gnu/linux) "Ubuntu Mono-18")))
+   ((eq system-type 'gnu/linux) "Ubuntu Mono-12")))
 
 (add-to-list 'default-frame-alist `(font . ,(rc/get-default-font)))
 
@@ -23,7 +23,7 @@
 (column-number-mode 1)
 (show-paren-mode 1)
 
-(rc/require-theme 'gruber-darker)
+(rc/require-theme 'zenburn)
 
 ;;; ido
 (rc/require 'smex 'ido-completing-read+)
@@ -287,34 +287,65 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(display-line-numbers-type (quote relative))
+ '(custom-safe-themes
+   '("1a212b23eb9a9bedde5ca8d8568b1e6351f6d6f989dd9e9de7fba8621e8ef82d" default))
+ '(display-line-numbers-type 'relative)
+ '(frame-brackground-mode 'dark)
  '(org-agenda-dim-blocked-tasks nil)
- '(org-agenda-exporter-settings (quote ((org-agenda-tag-filter-preset (list "+personal")))))
- '(org-cliplink-transport-implementation (quote url-el))
+ '(org-agenda-exporter-settings '((org-agenda-tag-filter-preset (list "+personal"))))
+ '(org-cliplink-transport-implementation 'url-el)
  '(org-enforce-todo-dependencies nil)
  '(org-modules
-   (quote
-    (org-bbdb org-bibtex org-docview org-gnus org-habit org-info org-irc org-mhe org-rmail org-w3m)))
- '(org-refile-use-outline-path (quote file))
+   '(org-bbdb org-bibtex org-docview org-gnus org-habit org-info org-irc org-mhe org-rmail org-w3m))
+ '(org-refile-use-outline-path 'file)
  '(package-selected-packages
-   (quote
-    (rainbow-mode proof-general elpy hindent ag qml-mode racket-mode php-mode go-mode kotlin-mode nginx-mode toml-mode love-minor-mode dockerfile-mode nix-mode purescript-mode markdown-mode jinja2-mode nim-mode csharp-mode rust-mode cmake-mode clojure-mode graphviz-dot-mode lua-mode tuareg glsl-mode yaml-mode d-mode scala-mode move-text nasm-mode editorconfig tide company powershell js2-mode yasnippet helm-ls-git helm-git-grep helm-cmd-t helm multiple-cursors magit haskell-mode paredit ido-completing-read+ smex gruber-darker-theme org-cliplink dash-functional dash)))
+   '(projectile ivy clang-format+ clang-format swift-mode rainbow-delimiters rainbow-identifiers auctex zenburn-theme zenburn-theme-theme rainbow-mode proof-general elpy hindent ag qml-mode racket-mode php-mode go-mode kotlin-mode nginx-mode toml-mode love-minor-mode dockerfile-mode nix-mode purescript-mode markdown-mode jinja2-mode nim-mode csharp-mode rust-mode cmake-mode clojure-mode graphviz-dot-mode lua-mode tuareg glsl-mode yaml-mode d-mode scala-mode move-text nasm-mode editorconfig tide company powershell js2-mode yasnippet helm-ls-git helm-git-grep helm-cmd-t helm multiple-cursors magit haskell-mode paredit ido-completing-read+ smex gruber-darker-theme org-cliplink dash-functional dash))
  '(safe-local-variable-values
-   (quote
-    ((eval progn
+   '((eval progn
            (auto-revert-mode 1)
            (rc/autopull-changes)
-           (add-hook
-            (quote after-save-hook)
-            (quote rc/autocommit-changes)
-            nil
-            (quote make-it-local))))))
+           (add-hook 'after-save-hook 'rc/autocommit-changes nil 'make-it-local))))
  '(whitespace-style
-   (quote
-    (face tabs spaces trailing space-before-tab newline indentation empty space-after-tab space-mark tab-mark))))
+   '(face tabs spaces trailing space-before-tab newline indentation empty space-after-tab space-mark tab-mark)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(trailing-whitespace ((t (:background "#3f3f3f" :foreground "#939393"))))
+ '(whitespace-big-indent ((t (:foreground "#838383"))))
+ '(whitespace-hspace ((t (:background "#3F3F3F" :foreground "#4F4F4F"))))
+ '(whitespace-indentation ((t (:background "#3f3f3f" :foreground "#CC9393"))))
+ '(whitespace-space ((t (:background "#3F3F3F" :foreground "#4F4F4F"))))
+ '(whitespace-tab ((t (:background "#3f3f3f" :foreground "#838383"))))
+ '(whitespace-trailing ((t (:background "#3f3f3f" :foreground "#939393")))))
+
+;; Org
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '(;; Other languages
+   (plantuml . t)
+   (dot . t)))
+
+(setq org-plantuml-jar-path
+      (expand-file-name "~/Prog/plantuml.jar"))
+
+(add-hook 'org-babel-after-execute-hook
+          (lambda ()
+            (when org-inline-image-overlays
+              (org-redisplay-inline-images))))
+
+;; Latin
+
+(defun wwwd ()
+  "Lookup Latin word at point with William Whitaker's Words program"
+  (interactive )
+  (shell-command (concat "latin " (thing-at-point 'word))))
+
+(global-set-key (kbd "<f12>") 'wwwd)
+
+;; Projectile
+
+(projectile-mode +1)
+(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
