@@ -299,7 +299,7 @@
    '(org-bbdb org-bibtex org-docview org-gnus org-habit org-info org-irc org-mhe org-rmail org-w3m))
  '(org-refile-use-outline-path 'file)
  '(package-selected-packages
-   '(projectile ivy clang-format+ clang-format swift-mode rainbow-delimiters rainbow-identifiers auctex zenburn-theme zenburn-theme-theme rainbow-mode proof-general elpy hindent ag qml-mode racket-mode php-mode go-mode kotlin-mode nginx-mode toml-mode love-minor-mode dockerfile-mode nix-mode purescript-mode markdown-mode jinja2-mode nim-mode csharp-mode rust-mode cmake-mode clojure-mode graphviz-dot-mode lua-mode tuareg glsl-mode yaml-mode d-mode scala-mode move-text nasm-mode editorconfig tide company powershell js2-mode yasnippet helm-ls-git helm-git-grep helm-cmd-t helm multiple-cursors magit haskell-mode paredit ido-completing-read+ smex gruber-darker-theme org-cliplink dash-functional dash))
+   '(projectile ivy swift-mode rainbow-delimiters rainbow-identifiers auctex zenburn-theme zenburn-theme-theme rainbow-mode proof-general elpy hindent ag qml-mode racket-mode php-mode go-mode kotlin-mode nginx-mode toml-mode love-minor-mode dockerfile-mode nix-mode purescript-mode markdown-mode jinja2-mode nim-mode csharp-mode rust-mode cmake-mode clojure-mode graphviz-dot-mode lua-mode tuareg glsl-mode yaml-mode d-mode scala-mode move-text nasm-mode editorconfig tide company powershell js2-mode yasnippet helm-ls-git helm-git-grep helm-cmd-t helm multiple-cursors magit haskell-mode paredit ido-completing-read+ smex gruber-darker-theme org-cliplink dash-functional dash))
  '(safe-local-variable-values
    '((eval progn
            (auto-revert-mode 1)
@@ -349,3 +349,38 @@
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+
+;; Tab indent
+(setq-default indent-tabs-mode t)
+(setq-default tab-width 4) ; Assuming you want your tabs to be four spaces wide
+;(defvaralias 'c-basic-offset 'tab-width)
+
+;; Revert all buffers
+(defun revert-all-file-buffers ()
+  "Refresh all open file buffers without confirmation.
+Buffers in modified (not yet saved) state in emacs will not be reverted. They
+will be reverted though if they were modified outside emacs.
+Buffers visiting files which do not exist any more or are no longer readable
+will be killed."
+  (interactive)
+  (dolist (buf (buffer-list))
+    (let ((filename (buffer-file-name buf)))
+      ;; Revert only buffers containing files, which are not modified;
+      ;; do not try to revert non-file buffers like *Messages*.
+      (when (and filename
+                 (not (buffer-modified-p buf)))
+        (if (file-readable-p filename)
+            ;; If the file exists and is readable, revert the buffer.
+            (with-current-buffer buf
+              (revert-buffer :ignore-auto :noconfirm :preserve-modes))
+          ;; Otherwise, kill the buffer.
+          (let (kill-buffer-query-functions) ; No query done when killing buffer
+            (kill-buffer buf)
+            (message "Killed non-existing/unreadable file buffer: %s" filename))))))
+  (message "Finished reverting buffers containing unmodified files."))
+
+
+(global-set-key (kbd "<f5>") 'revert-buffer)
+(global-set-key (kbd "M-<f5>") 'revert-all-file-buffers)
+
+(put 'dired-find-alternate-file 'disabled nil)
