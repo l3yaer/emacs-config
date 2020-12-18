@@ -299,12 +299,12 @@
    '(org-bbdb org-bibtex org-docview org-gnus org-habit org-info org-irc org-mhe org-rmail org-w3m))
  '(org-refile-use-outline-path 'file)
  '(package-selected-packages
-   '(projectile ivy swift-mode rainbow-delimiters rainbow-identifiers auctex zenburn-theme zenburn-theme-theme rainbow-mode proof-general elpy hindent ag qml-mode racket-mode php-mode go-mode kotlin-mode nginx-mode toml-mode love-minor-mode dockerfile-mode nix-mode purescript-mode markdown-mode jinja2-mode nim-mode csharp-mode rust-mode cmake-mode clojure-mode graphviz-dot-mode lua-mode tuareg glsl-mode yaml-mode d-mode scala-mode move-text nasm-mode editorconfig tide company powershell js2-mode yasnippet helm-ls-git helm-git-grep helm-cmd-t helm multiple-cursors magit haskell-mode paredit ido-completing-read+ smex gruber-darker-theme org-cliplink dash-functional dash))
+   '(dired-sidebar projectile ivy swift-mode rainbow-delimiters rainbow-identifiers auctex zenburn-theme zenburn-theme-theme rainbow-mode proof-general elpy hindent ag qml-mode racket-mode php-mode go-mode kotlin-mode nginx-mode toml-mode love-minor-mode dockerfile-mode nix-mode purescript-mode markdown-mode jinja2-mode nim-mode csharp-mode rust-mode cmake-mode clojure-mode graphviz-dot-mode lua-mode tuareg glsl-mode yaml-mode d-mode scala-mode move-text nasm-mode editorconfig tide company powershell js2-mode yasnippet helm-ls-git helm-git-grep helm-cmd-t helm multiple-cursors magit haskell-mode paredit ido-completing-read+ smex gruber-darker-theme org-cliplink dash-functional dash))
  '(safe-local-variable-values
    '((eval progn
-           (auto-revert-mode 1)
-           (rc/autopull-changes)
-           (add-hook 'after-save-hook 'rc/autocommit-changes nil 'make-it-local))))
+		   (auto-revert-mode 1)
+		   (rc/autopull-changes)
+		   (add-hook 'after-save-hook 'rc/autocommit-changes nil 'make-it-local))))
  '(whitespace-style
    '(face tabs spaces trailing space-before-tab newline indentation empty space-after-tab space-mark tab-mark)))
 (custom-set-faces
@@ -384,3 +384,36 @@ will be killed."
 (global-set-key (kbd "M-<f5>") 'revert-all-file-buffers)
 
 (put 'dired-find-alternate-file 'disabled nil)
+
+
+;; Dired sidebar
+(global-set-key (kbd "C-x C-n") 'dired-sidebar-toggle-sidebar)
+(setq dired-sidebar-subtree-line-prefix "__")
+(setq dired-sidebar-theme 'ascii)
+(setq dired-sidebar-use-term-integration t)
+
+;; key rebind
+(setq w32-pass-lwindow-to-system nil)
+(setq w32-lwindow-modifier 'super) ; Left Windows key
+
+(setq w32-pass-rwindow-to-system nil)
+(setq w32-rwindow-modifier 'super) ; Right Windows key
+
+(setq w32-pass-apps-to-system nil)
+(setq w32-apps-modifier 'hyper)
+
+(setq mac-command-modifier 'meta) ; make cmd key do Meta
+(setq mac-option-modifier 'super) ; make opt key do Super
+(setq mac-control-modifier 'control)
+(setq ns-function-modifier 'hyper)
+
+(global-set-key (kbd "<f7>") 'projectile-compile-project)
+
+(global-set-key (kbd "<f6>") (lambda ()
+							   (interactive)
+							   (other-window 1)
+							   (kill-buffer-and-window)))
+
+
+(global-set-key (kbd "<S-mouse-4>") 'other-window)
+(global-set-key (kbd "<s-up>") 'other-window)
