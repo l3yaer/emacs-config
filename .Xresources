@@ -38,3 +38,5 @@ URxvt.matcher.button: 1
 URxvt.keysym.C-minus:  resize-font:smaller
 URxvt.keysym.C-equal:  resize-font:bigger
 URxvt.keysym.C-0:      resize-font:reset
+
+Sxiv.background: #000000

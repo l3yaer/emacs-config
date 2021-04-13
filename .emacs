@@ -462,3 +462,9 @@ will be killed."
 (add-to-list 'auto-mode-alist '("\\.mixal\\'" . mixal-mode))
 
 (autoload 'mixvm "mixvm" "mixvm/gud interaction" t)
+
+;;GGTAGS
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
+              (ggtags-mode 1))))
