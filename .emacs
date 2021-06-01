@@ -1,7 +1,6 @@
-(package-initialize)
+;;(package-initialize)
 
 (load "~/.emacs.rc/rc.el")
-
 (load "~/.emacs.rc/misc-rc.el")
 (load "~/.emacs.rc/org-mode-rc.el")
 (load "~/.emacs.rc/autocommit-rc.el")
@@ -266,7 +265,6 @@
  'purescript-mode
  'nix-mode
  'dockerfile-mode
- 'love-minor-mode
  'toml-mode
  'nginx-mode
  'kotlin-mode
@@ -299,7 +297,7 @@
    '(org-bbdb org-bibtex org-docview org-gnus org-habit org-info org-irc org-mhe org-rmail org-w3m))
  '(org-refile-use-outline-path 'file)
  '(package-selected-packages
-   '(org-special-block-extras dired-sidebar projectile ivy swift-mode rainbow-delimiters rainbow-identifiers auctex zenburn-theme zenburn-theme-theme rainbow-mode proof-general elpy hindent ag qml-mode racket-mode php-mode go-mode kotlin-mode nginx-mode toml-mode love-minor-mode dockerfile-mode nix-mode purescript-mode markdown-mode jinja2-mode nim-mode csharp-mode rust-mode cmake-mode clojure-mode graphviz-dot-mode lua-mode tuareg glsl-mode yaml-mode d-mode scala-mode move-text nasm-mode editorconfig tide company powershell js2-mode yasnippet helm-ls-git helm-git-grep helm-cmd-t helm multiple-cursors magit haskell-mode paredit ido-completing-read+ smex gruber-darker-theme org-cliplink dash-functional dash))
+   '(org-special-block-extras dired-sidebar ivy swift-mode rainbow-delimiters rainbow-identifiers auctex zenburn-theme zenburn-theme-theme rainbow-mode proof-general elpy hindent ag qml-mode racket-mode php-mode go-mode kotlin-mode nginx-mode toml-mode love-minor-mode dockerfile-mode nix-mode purescript-mode markdown-mode jinja2-mode nim-mode csharp-mode rust-mode cmake-mode clojure-mode graphviz-dot-mode lua-mode tuareg glsl-mode yaml-mode d-mode scala-mode move-text nasm-mode editorconfig tide company powershell js2-mode yasnippet helm-ls-git helm-git-grep helm-cmd-t helm multiple-cursors magit haskell-mode paredit ido-completing-read+ smex gruber-darker-theme org-cliplink dash-functional dash))
  '(safe-local-variable-values
    '((eval progn
 		   (auto-revert-mode 1)
@@ -343,12 +341,6 @@
   (shell-command (concat "latin " (thing-at-point 'word))))
 
 (global-set-key (kbd "<f12>") 'wwwd)
-
-;; Projectile
-
-(projectile-mode +1)
-(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
 ;; Tab indent
 (setq-default indent-tabs-mode t)
@@ -407,7 +399,7 @@ will be killed."
 (setq mac-control-modifier 'control)
 (setq ns-function-modifier 'hyper)
 
-(global-set-key (kbd "<f7>") 'projectile-compile-project)
+(global-set-key (kbd "<f7>") 'compile)
 
 (global-set-key (kbd "<f6>") (lambda ()
 							   (interactive)
@@ -468,3 +460,72 @@ will be killed."
           (lambda ()
             (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
               (ggtags-mode 1))))
+
+;; Org
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '(;; Other languages
+   (plantuml . t)
+   (dot . t)))
+
+(setq org-plantuml-jar-path
+      (expand-file-name "~/Prog/plantuml.jar"))
+
+(add-hook 'org-babel-after-execute-hook
+          (lambda ()
+            (when org-inline-image-overlays
+              (org-redisplay-inline-images))))
+
+;; Latin
+
+(defun wwwd ()
+  "Lookup Latin word at point with William Whitaker's Words program"
+  (interactive )
+  (shell-command (concat "latin " (thing-at-point 'word))))
+
+(global-set-key (kbd "<f12>") 'wwwd)
+
+(setq-default indent-tabs-mode )
+
+;; No easy keys
+;;(global-unset-key (kbd "<left>"))
+;;(global-unset-key (kbd "<right>"))
+;;(global-unset-key (kbd "<up>"))
+;;(global-unset-key (kbd "<down>"))
+;;(global-unset-key (kbd "<C-left>"))
+;;(global-unset-key (kbd "<C-right>"))
+;;(global-unset-key (kbd "<C-up>"))
+;;(global-unset-key (kbd "<C-down>"))
+;;(global-unset-key (kbd "<M-left>"))
+;;(global-unset-key (kbd "<M-right>"))
+;;(global-unset-key (kbd "<M-up>"))
+;;(global-unset-key (kbd "<M-down>"))
+
+;;(global-unset-key (kbd "<delete>"))
+;;(global-unset-key (kbd "<C-delete>"))
+;;(global-unset-key (kbd "<M-delete>"))
+;;(global-unset-key (kbd "<home>"))
+;;(global-unset-key (kbd "<C-home>"))
+;;(global-unset-key (kbd "<M-home>"))
+;;(global-unset-key (kbd "<prior>"))
+;;(global-unset-key (kbd "<C-prior>"))
+;;(global-unset-key (kbd "<M-prior>"))
+;;(global-unset-key (kbd "<next>"))
+;;(global-unset-key (kbd "<C-next>"))
+;;(global-unset-key (kbd "<M-next>"))
+;;(global-unset-key (kbd "<end>"))
+;;(global-unset-key (kbd "<C-end>"))
+;;(global-unset-key (kbd "<M-end>"))
+
+;;lsp-mode
+(setq lsp-keymap-prefix "s-l")
+
+(require 'lsp-mode)
+(add-hook 'c-mode-hook #'lsp)
+(add-hook 'c++-mode-hook #'lsp)
+
+;;pdf-tools
+(require 'pdf-tools)
+(pdf-loader-install)
+(setq pdf-annot-activate-created-annotations t)
+(define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
