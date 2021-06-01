@@ -9,7 +9,7 @@
 (defun rc/get-default-font ()
   (cond
    ((eq system-type 'windows-nt) "Consolas-13")
-   ((eq system-type 'darwin) "Times-12")
+   ((eq system-type 'darwin) "Times-18")
    ((eq system-type 'gnu/linux) "Ubuntu Mono-12")))
 
 (add-to-list 'default-frame-alist `(font . ,(rc/get-default-font)))

@@ -136,7 +136,7 @@
 		 :unnarrowed t)))
 
 (setq org-roam-directory "~/org/roam")
-(setq org-roam-db-location "~/org/roam.db")
+(setq org-roam-db-location "~/org-roam.db")
 (add-hook 'after-init-hook 'org-roam-mode)
 (setq org-roam-db-update-method 'immediate)
 (define-key global-map (kbd "C-c r") 'org-roam-capture)
