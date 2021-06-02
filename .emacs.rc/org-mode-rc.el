@@ -79,8 +79,7 @@
   (goto-char (point-min))
   (find-subtree "%Y" "*")
   (find-subtree "%Y-%m" "**")
-  (find-subtree "%Y-%m-%d" "***")
-  (org-end-of-subtree))
+  (find-subtree "%Y-%m-%d" "***"))
 
 (setq org-capture-templates
       '(("w" "Capture task" entry (file+headline "~/org/org/tasks.org" "Inbox")
@@ -90,12 +89,12 @@
          "* TODO %(org-cliplink-capture) \n  SCHEDULED: %t\n" :empty-lines 1)
 
         ("n" "Note" entry (file+function "~/org/org/notes.org" find-journal-tree-func)
-         "* %U - %?\n  %i\n" :kill-buffer t :empty-lines 0)
+         "* %U - %?\n" :kill-buffer t :empty-lines 0)
 		
-	("p" "Protocol" entry (file+headline "~/org/org/tasks.org" "Inbox")
+		("p" "Protocol" entry (file+headline "~/org/org/tasks.org" "Inbox")
          "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
 		
-	("L" "Protocol Link" entry (file+headline "~/org/org/tasks.org" "Inbox")
+		("L" "Protocol Link" entry (file+headline "~/org/org/tasks.org" "Inbox")
          "* %? [[%:link][%:description]] \nCaptured On: %U")))
 
 (setq org-protocol-default-template-key "n")
