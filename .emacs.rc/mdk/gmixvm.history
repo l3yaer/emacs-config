@@ -1,9 +1,0 @@
-compile /home/horacio/Prog/MIX/primes.mixal
-load /home/horacio/Prog/MIX/primes.mix
-run
-compile /home/horacio/Prog/MIX/primes.mixal
-load /home/horacio/Prog/MIX/primes.mix
-run
-compile /home/horacio/Prog/MIX/primes.mixal
-load /home/horacio/Prog/MIX/primes.mix
-run
