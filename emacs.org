@@ -498,9 +498,6 @@
           smtpmail-smtp-service 587)
 
     (setq message-kill-buffer-on-exit t)
-
-    (mu4e-alert-set-default-style 'libnotify)
-    (add-hook 'after-init-hook #'mu4e-alert-enable-notifications)
   #+END_SRC
 
 * ido
