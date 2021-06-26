@@ -189,7 +189,7 @@
     (defun rc/get-default-font ()
       (cond
        ((eq system-type 'windows-nt) "Consolas-13")
-       ((eq system-type 'darwin) "Times-18")
+       ((eq system-type 'darwin) "Times-14")
        ((eq system-type 'gnu/linux) "Ubuntu Mono-12")))
 
     (add-to-list 'default-frame-alist `(font . ,(rc/get-default-font)))
@@ -691,8 +691,8 @@
     (setq w32-pass-apps-to-system nil)
     (setq w32-apps-modifier 'hyper)
 
-    (setq mac-command-modifier 'meta) ; make cmd key do Meta
-    (setq mac-option-modifier 'super) ; make opt key do Super
+    (setq mac-command-modifier 'super) ; make cmd key do Meta
+    (setq mac-option-modifier 'meta) ; make opt key do Super
     (setq mac-control-modifier 'control)
     (setq ns-function-modifier 'hyper)
 
@@ -982,10 +982,13 @@
 * lsp-mode
   #+BEGIN_SRC emacs-lisp
     (setq lsp-keymap-prefix "s-l")
-
+  (rc/require 'lsp-mode)
     (require 'lsp-mode nil 'noerror)
     (add-hook 'c-mode-hook #'lsp)
     (add-hook 'c++-mode-hook #'lsp)
+    (add-hook 'clojure-mode-hook #'lsp)
+    (add-hook 'clojurescript-mode-hook #'lsp)
+    (add-hook 'java-mode-hook #'lsp)
   #+END_SRC
 
 * pdf-tools
