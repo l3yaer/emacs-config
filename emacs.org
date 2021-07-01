@@ -971,18 +971,12 @@
     (autoload 'mixvm "mixvm" "mixvm/gud interaction" t)
   #+END_SRC
 
-* GGTAGS
-  #+BEGIN_SRC emacs-lisp
-    (add-hook 'c-mode-common-hook
-              (lambda ()
-                (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
-                  (ggtags-mode 1))))
-  #+END_SRC
-
 * lsp-mode
   #+BEGIN_SRC emacs-lisp
     (setq lsp-keymap-prefix "s-l")
   (rc/require 'lsp-mode)
+  (rc/require 'dap-mode)
+  (rc/require 'lsp-java)
     (require 'lsp-mode nil 'noerror)
     (add-hook 'c-mode-hook #'lsp)
     (add-hook 'c++-mode-hook #'lsp)
